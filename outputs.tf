@@ -3,7 +3,7 @@ output "Phonebook_LB_Website" {
 }
 
 output "Phonebook_LB_Website_DNS" {
-  value = "http://${azurerm_public_ip.pip.domain_name_label}.eastus.cloudapp.azure.com"
+  value = "http://${azurerm_public_ip.pip.domain_name_label}.${var.location}.cloudapp.azure.com"
 }
 
 output "SSH_Command" {
