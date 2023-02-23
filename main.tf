@@ -29,7 +29,7 @@ resource "github_repository_file" "dbendpoint" {
   branch              = var.repo_branch
   overwrite_on_create = true
   depends_on = [
-    azurerm_mysql_flexible_server.phonebook-db-server
+    azurerm_mysql_flexible_server.db-server
   ]
 }
 ##################
@@ -210,14 +210,14 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   custom_data         = base64encode(file("${path.module}/userdata.sh"))
 
   admin_ssh_key {
-    key_data = data.azurerm_ssh_public_key.ssh_public_key.public_key
-    path     = "/home/${vmss_username}/.ssh/authorized_keys"
+	username   = var.vmss_username
+	public_key = data.azurerm_ssh_public_key.ssh_public_key.public_key
   }
 
   source_image_reference {
     publisher = "Canonical"
     offer     = "UbuntuServer"
-    sku       = "22.04-LTS"
+    sku       = "18.04-LTS"
     version   = "latest"
   }
 
@@ -242,7 +242,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   # Since these can change via auto-scaling outside of Terraform,
   # let's ignore any changes to the number of instances
   lifecycle {
-    ignore_changes = ["instances"]
+    ignore_changes = [ instances ]
   }
 }
 

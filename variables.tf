@@ -33,7 +33,7 @@ variable "db_server_name" {
 
 variable "db_username" {
   description = "Should match with 'phonebook-app.py' line #20"
-  default     = "admin"
+  default     = "phonebook"
 }
 
 variable "db_password" {
