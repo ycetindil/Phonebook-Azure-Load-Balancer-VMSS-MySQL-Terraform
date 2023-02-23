@@ -1,8 +1,8 @@
-output "Phonebook_LB_Website" {
+output "Phonebook_LB_URL" {
   value = "http://${azurerm_public_ip.pip.ip_address}"
 }
 
-output "Phonebook_LB_Website_DNS" {
+output "Phonebook_LB_URL_DNS" {
   value = "http://${azurerm_public_ip.pip.domain_name_label}.${var.location}.cloudapp.azure.com"
 }
 
