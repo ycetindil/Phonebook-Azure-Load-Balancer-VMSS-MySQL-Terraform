@@ -12,11 +12,13 @@ terraform {
 }
 
 provider "azurerm" {
-  features {}
+  features {
+    
+  }
 }
 
 provider "github" {
-  token = file("${var.token_path}/${var.token_filename}")
+  token = file("${var.github_token_path}/${var.github_token_filename}")
 }
 
 ##########
@@ -25,13 +27,14 @@ provider "github" {
 resource "github_repository_file" "dbendpoint" {
   content             = azurerm_mysql_flexible_server.db-server.fqdn
   file                = "dbserver.endpoint"
-  repository          = var.repo_name
-  branch              = var.repo_branch
+  repository          = var.github_repo_name
+  branch              = var.github_repo_branch
   overwrite_on_create = true
   depends_on = [
     azurerm_mysql_flexible_server.db-server
   ]
 }
+
 ##################
 # Resource group #
 ##################

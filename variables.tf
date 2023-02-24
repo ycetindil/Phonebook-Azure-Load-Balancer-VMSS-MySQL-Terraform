@@ -3,20 +3,20 @@ variable "prefix" {
 }
 
 # GitHub
-variable "token_path" {
+variable "github_token_path" {
   default = "~/Documents/DevOps/GitHub/"
 }
 
-variable "token_filename" {
+variable "github_token_filename" {
   default = "github_token"
 }
 
-variable "repo_name" {
+variable "github_repo_name" {
   description = "Should match with 'phonebook-app.py' line #13"
   default     = "Terraform-Azure-Load-Balancer-VMSS-MySQL-Phonebook-App"
 }
 
-variable "repo_branch" {
+variable "github_repo_branch" {
   default = "main"
 }
 
