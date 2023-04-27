@@ -12,9 +12,7 @@ terraform {
 }
 
 provider "azurerm" {
-  features {
-    
-  }
+  features {}
 }
 
 provider "github" {
@@ -31,7 +29,7 @@ resource "github_repository_file" "dbendpoint" {
   branch              = var.github_repo_branch
   overwrite_on_create = true
   depends_on = [
-    azurerm_mysql_flexible_server.db-server
+    azurerm_mysql_flexible_database.db
   ]
 }
 
@@ -210,11 +208,17 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   sku                 = "Standard_F2"
   instances           = 2
   admin_username      = var.vmss_username
-  custom_data         = base64encode(file("${path.module}/userdata.sh"))
+  custom_data = base64encode(templatefile("${path.module}/custom-data.sh", {
+    repo_name     = var.github_repo_name
+    vmss_username = var.vmss_username
+  }))
+  depends_on = [
+    github_repository_file.dbendpoint
+  ]
 
   admin_ssh_key {
-	username   = var.vmss_username
-	public_key = data.azurerm_ssh_public_key.ssh_public_key.public_key
+    username   = var.vmss_username
+    public_key = data.azurerm_ssh_public_key.ssh_public_key.public_key
   }
 
   source_image_reference {
@@ -245,7 +249,7 @@ resource "azurerm_linux_virtual_machine_scale_set" "vmss" {
   # Since these can change via auto-scaling outside of Terraform,
   # let's ignore any changes to the number of instances
   lifecycle {
-    ignore_changes = [ instances ]
+    ignore_changes = [instances]
   }
 }
 

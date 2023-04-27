@@ -8,12 +8,12 @@ variable "github_token_path" {
 }
 
 variable "github_token_filename" {
-  default = "github_token"
+  default = "github_token.txt"
 }
 
 variable "github_repo_name" {
   description = "Should match with 'phonebook-app.py' line #13"
-  default     = "Terraform-Azure-Load-Balancer-VMSS-MySQL-Phonebook-App"
+  default     = "Phonebook-Azure-Load-Balancer-VMSS-MySQL-Terraform"
 }
 
 variable "github_repo_branch" {
@@ -55,5 +55,6 @@ variable "vmss_private_key_path" {
 }
 
 variable "vmss_username" {
-  default = "clouduser"
+  description = "Should match with 'phonebook-app.py' line #13"
+  default     = "clouduser"
 }
